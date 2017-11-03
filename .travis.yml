@@ -1,0 +1,16 @@
+sudo: required
+language: go
+go:
+- 1.9
+services:
+- docker
+jobs:
+  include:
+  - stage: Check generated contents are up to date and code is formatted.
+    script: ./scripts/jenkins/check-make-generate.sh
+  - stage: Compile binary
+    script: make crossbuild
+  - stage: Unit tests
+    script: make test
+  - stage: E2e tests
+    script: ./scripts/travis-e2e.sh
